@@ -1,0 +1,17 @@
+{
+  "batch_size": 8,
+  "freeze_epochs": 12,
+  "finetune_epochs": 30,
+  "patience": 8,
+  "lr_head": 0.0023055824520218176,
+  "lr_full": 0.00038338923838680995,
+  "weight_decay": 2.0719980392386016e-06,
+  "pos_weight": 3.6200846697458715,
+  "bce_weight": 0.26505183388133324,
+  "dice_weight": 0.7349481661186668,
+  "min_mask_area": 32,
+  "rotate_limit": 6,
+  "brightness_limit": 0.1155863985759543,
+  "contrast_limit": 0.1045568480443709,
+  "noise_p": 0.07250209745033293
+}

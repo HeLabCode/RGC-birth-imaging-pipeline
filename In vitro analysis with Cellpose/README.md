@@ -1,27 +1,35 @@
-# Cellpose Segmentation and Single-Cell Ratio Analysis
+# Cellpose Segmentation and Single-Cell Ratio Analysis (MIP-based workflow)
 
-A Python/Jupyter workflow for automated segmentation and fluorescence ratio analysis of in vitro HEK cell images using [Cellpose](https://www.cellpose.org/).
+Jupyter workflow for segmentation and fluorescence ratio analysis on **pre-computed MIP images** using Cellpose.
 
-The notebook takes raw multi-channel Z-stack TIFF images, generates maximum-intensity projections, segments cells with Cellpose, extracts single-cell fluorescence intensities, filters low-quality measurements, and saves clean CSV outputs for downstream analysis.
+This version works directly on folders containing already-generated MIP TIFF images organized by **condition only**.
+
+---
 
 ## What this workflow does
 
-1. **Builds maximum-intensity projections** from Z-stack TIFF images.
-2. **Segments cells** on a selected reference channel using Cellpose.
-3. **Saves segmentation masks** and overlay images for visual inspection.
-4. **Extracts per-cell fluorescence intensities** from two channels.
-5. **Applies quality-control filters** to remove dim, saturated, or invalid cells.
-6. **Calculates single-cell fluorescence ratios**, such as `ch01 / ch00`.
-7. **Exports CSV tables and QC plots** for further analysis.
+1. Uses existing MIP images from `ch00` and `ch01`
+2. Runs Cellpose segmentation on a selected channel
+3. Saves masks and overlay images in a mirrored folder structure
+4. Extracts single-cell fluorescence intensities
+5. Computes per-cell fluorescence ratios, for example `ch01 / ch00`
+6. Applies filtering to remove invalid or low-quality measurements
+7. Exports CSV tables and final plots into an `output` folder
 
+---
 
 ## Repository contents
 
 ```text
 .
-├── Cellpose_segmentation&analysis.ipynb   # Main analysis notebook
-└── README.md                              # Project documentation
+├── Cellpose_condition1_condition2_ratio_analysis_v2.ipynb   # Main analysis notebook
+├── example_MIP_images/                                      # Input MIP images
+├── example_masks_MIP_images/                                # Cellpose mask outputs
+├── output/                                                  # CSV results and plots
+└── README.md                                                # Project documentation
 ```
+
+---
 
 ## Requirements
 
@@ -35,108 +43,185 @@ Recommended environment:
 
 - Python 3.9+
 - Jupyter Notebook or JupyterLab
-- GPU support is optional but recommended for faster Cellpose segmentation
+- GPU support optional, but recommended for faster Cellpose segmentation
+
+---
 
 ## Input data format
 
-The workflow expects raw TIFF images named with condition, pH, field of view, Z-slice, and channel information.
+The notebook expects **already-MIPed TIFF images**.
 
-Example filename pattern:
-
-```text
-sample_TA_7.29_v1_z3_ch00.tif
-```
-
-Expected naming fields:
-
-| Field | Example | Meaning |
-|---|---:|---|
-| Condition | `TA`, `WT` | Experimental condition |
-| pH | `7.29` | pH value |
-| View | `v1` | Field of view |
-| Z-slice | `z3` | Z-stack index |
-| Channel | `ch00`, `ch01` | Imaging channel |
-
-## Workflow
-
-### 1. Generate MIP images
-
-The notebook groups raw TIFF files by condition, pH, view, and channel. It then stacks the Z-slices and saves one maximum-intensity projection per group.
-
-Output structure:
+The input folder must be organized like this:
 
 ```text
-Raw_images/
-└── CONDITION/
-    └── pH_VALUE/
-        └── VIEW/
-            ├── ch00_MIP.tif
-            ├── ch01_MIP.tif
-            └── ch02_MIP.tif
+example_MIP_images/
+├── condition1/
+│   ├── v1/
+│   │   ├── ch00_MIP.tif
+│   │   └── ch01_MIP.tif
+│   ├── v2/
+│   │   ├── ch00_MIP.tif
+│   │   └── ch01_MIP.tif
+│   └── ...
+└── condition2/
+    ├── v1/
+    │   ├── ch00_MIP.tif
+    │   └── ch01_MIP.tif
+    ├── v2/
+    │   ├── ch00_MIP.tif
+    │   └── ch01_MIP.tif
+    └── ...
 ```
 
-### 2. Run Cellpose segmentation
+Required rules:
 
-Cellpose is run on a selected channel, for example `ch00` or `ch01`. The notebook saves:
+- Only `condition1` and `condition2` are used.
+- Each field of view must be inside a folder such as `v1`, `v2`, `v3`, etc.
+- Each field of view must contain:
+  - `ch00_MIP.tif`
+  - `ch01_MIP.tif`
+- Images must already be maximum-intensity projections.
+- No pH folders are used.
+- No Z-stack processing is performed.
 
-- Label masks as `.npy` files
-- Overlay images as `.png` files
+---
 
-Example outputs:
+## Output folder structure
+
+### Cellpose masks and overlays
+
+Cellpose outputs are saved in:
 
 ```text
-MIP_images/
-├── mask_TA/
-│   └── pH_7.29/
-│       └── v1/
-│           ├── ch00_labels.npy
-│           └── ch00_overlay.png
+example_masks_MIP_images/
+├── condition1_mask/
+│   ├── v1/
+│   │   ├── ch00_labels.npy
+│   │   └── ch00_overlay.png
+│   ├── v2/
+│   └── ...
+└── condition2_mask/
+    ├── v1/
+    │   ├── ch00_labels.npy
+    │   └── ch00_overlay.png
+    ├── v2/
+    └── ...
 ```
 
-### 3. Extract single-cell ratios
+The mask folder mirrors the input folder structure.
 
-For each segmented cell, the notebook calculates background-corrected mean fluorescence intensities and computes:
+---
+
+### Final values and plots
+
+All quantification tables and plots are saved in:
+
+```text
+output/
+├── single_cell_ratios.csv
+├── single_cell_raw_before_filtering.csv
+├── filtering_summary.csv
+└── ratio_distributions.png
+```
+
+---
+
+## Main output files
+
+| File | Description |
+|---|---|
+| `single_cell_ratios.csv` | Filtered single-cell ratio results |
+| `single_cell_raw_before_filtering.csv` | Raw per-cell intensity values before filtering |
+| `filtering_summary.csv` | Summary of retained and removed cells per image |
+| `ratio_distributions.png` | Final ratio distribution plot comparing conditions |
+
+---
+
+## Analysis details
+
+### 1. Cellpose segmentation
+
+The notebook runs Cellpose on the selected segmentation channel.
+
+Default:
+
+```python
+SEGMENT_CHANNEL = "ch00"
+```
+
+For each image, the notebook saves:
+
+- Cell label mask: `ch00_labels.npy`
+- Segmentation overlay: `ch00_overlay.png`
+
+The overlay images should be checked manually before interpreting the ratio results.
+
+---
+
+### 2. Single-cell intensity extraction
+
+For each segmented cell, the notebook extracts mean fluorescence intensity from:
+
+- `ch00_MIP.tif`
+- `ch01_MIP.tif`
+
+Each cell receives metadata for:
+
+- condition
+- field of view
+- cell label
+- channel intensities
+- computed ratio
+
+---
+
+### 3. Ratio calculation
+
+Default ratio:
 
 ```text
 ratio = ch01_mean / ch00_mean
 ```
 
-Cells are filtered out when they are:
+Default settings:
 
-- Too dim in the denominator channel
-- Saturated in either channel
-- Invalid because the denominator intensity is zero or negative
-
-## Output files
-
-The final results are saved in the `results` folder.
-
-```text
-results/
-├── single_cell_ratios.csv
-├── single_cell_raw_before_filtering.csv
-├── filtering_summary.csv
-├── ATEAM_overlay_histograms.png
-└── DRUG_overlay_histograms.png
+```python
+RATIO_NUM = "ch01"
+RATIO_DEN = "ch00"
 ```
 
-### Main CSV outputs
+Change these variables in the notebook if the numerator and denominator channels need to be swapped.
 
-| File | Description |
-|---|---|
-| `single_cell_ratios.csv` | Filtered single-cell fluorescence ratios and metadata |
-| `single_cell_raw_before_filtering.csv` | Raw per-cell intensity measurements before filtering |
-| `filtering_summary.csv` | Per-image summary of retained and removed cells |
+---
+
+### 4. Filtering
+
+Cells are excluded if:
+
+- denominator intensity is too low
+- denominator intensity is zero or negative
+- either channel is saturated
+- the computed ratio is invalid
+
+Filtered and unfiltered data are both saved.
+
+---
 
 ## Configuration
 
-Before running the notebook, update these paths and parameters to match your dataset:
+Main variables to adjust inside the notebook:
 
 ```python
-ROOT = Path("/path/to/raw/images")
-ROOT_DIR = "/path/to/MIP_images"
-CHANNEL_TAG = "ch00"
-MASK_CHANNEL = "ch01"
+ROOT_DIR = "example_MIP_images"
+OUTPUT_MASK_DIR = "example_masks_MIP_images"
+OUTPUT_RESULTS_DIR = "output"
+
+CONDITIONS = ["condition1", "condition2"]
+
+SEGMENT_CHANNEL = "ch00"
+RATIO_NUM = "ch01"
+RATIO_DEN = "ch00"
+
 USE_GPU = True
 DIAMETER = None
 ```
@@ -145,35 +230,61 @@ Key settings:
 
 | Setting | Purpose |
 |---|---|
-| `ROOT` | Folder containing raw Z-stack TIFF files |
-| `ROOT_DIR` | Folder containing generated MIP images |
-| `CHANNEL_TAG` | Channel used for Cellpose segmentation |
-| `MASK_CHANNEL` | Channel whose segmentation mask is used for analysis |
-| `USE_GPU` | Set to `True` for GPU-based Cellpose segmentation |
-| `DIAMETER` | Cellpose cell diameter; use `None` for automatic estimation |
+| `ROOT_DIR` | Folder containing the input MIP images |
+| `OUTPUT_MASK_DIR` | Folder where Cellpose masks and overlays are saved |
+| `OUTPUT_RESULTS_DIR` | Folder where CSV files and plots are saved |
+| `CONDITIONS` | Condition folders to analyze |
+| `SEGMENT_CHANNEL` | Channel used for Cellpose segmentation |
+| `RATIO_NUM` | Numerator channel for ratio calculation |
+| `RATIO_DEN` | Denominator channel for ratio calculation |
+| `USE_GPU` | Use GPU for Cellpose if available |
+| `DIAMETER` | Cell diameter for Cellpose; `None` allows automatic estimation |
+
+---
 
 ## How to run
 
-1. Clone this repository.
-2. Install the required packages.
-3. Place your raw TIFF images in the expected input folder.
-4. Open the notebook:
+1. Place your MIP images inside `example_MIP_images/`.
+2. Make sure the folder structure follows the required format.
+3. Open:
 
 ```bash
-jupyter notebook "Cellpose_segmentation&analysis.ipynb"
+jupyter notebook "Cellpose_condition1_condition2_ratio_analysis_v2.ipynb"
 ```
 
-5. Update the input/output paths in the notebook.
-6. Run the cells in order.
-7. Check the `results` folder for CSV files and QC plots.
+4. Check the configuration cell.
+5. Run all notebook cells in order.
+6. Inspect segmentation overlays in `example_masks_MIP_images/`.
+7. Use the CSV tables and plots in `output/` for analysis.
 
-## Notes
+---
 
-- This workflow was designed for in vitro HEK cell fluorescence images.
-- The notebook assumes two analysis channels, currently `ch00` and `ch01`.
-- File naming must be consistent for automatic grouping to work.
-- Segmentation quality should be checked using the saved overlay images before interpreting ratio results.
+## Important notes
 
-## License
+- This workflow does not generate MIPs.
+- This workflow does not analyze Z-stacks.
+- This workflow does not use pH folders.
+- Input images must already be named `ch00_MIP.tif` and `ch01_MIP.tif`.
+- The only expected biological/experimental groups are `condition1` and `condition2`.
+- Segmentation quality must be checked using the overlay PNG files before trusting the final ratios.
 
-No license has been specified yet. Add a license file if you plan to make this repository public.
+---
+
+## Previous workflow changes
+
+The older notebook expected raw Z-stack images and used condition/pH/view/channel grouping.
+
+This corrected notebook removes:
+
+- Z-stack parsing
+- automatic MIP generation
+- pH-based grouping
+- filename metadata parsing
+
+The corrected notebook keeps:
+
+- Cellpose segmentation
+- mask and overlay generation
+- single-cell intensity extraction
+- channel ratio calculation
+- CSV and plot export

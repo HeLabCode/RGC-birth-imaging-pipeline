@@ -160,4 +160,3 @@ def run_S5_background_subtraction(channel, VIEW_DIR, S2_8, S2_9, S5_8, S5_9):
     df_bgsub.to_csv(os.path.join(s5_dir, f"{channel}_S5_means_bgsub.csv"), index=False)
 
     print(f"S5[{channel}]: processed {len(track_ids_sorted)} cells")
-    print(f" → Saved to {s5_dir}\n")

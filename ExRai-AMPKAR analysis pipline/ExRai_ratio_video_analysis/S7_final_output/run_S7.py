@@ -30,21 +30,21 @@ def run_S7_manual_link_ratio_and_projection(
     """
 
 
-    MAPPING_CSV = os.path.join(S6, "area_filtered_mapping.csv") 
 
-    Z_MIN, Z_MAX = 1, 18 #  Z range for ratio & projection (inclusive)
+    MAPPING_CSV = os.path.join(S6, "area_filtered_mapping.csv")  
+
+    Z_MIN, Z_MAX = 1, 18
 
     RATIO_USE_Z_RANGE = False
     pkl_file_name = "view1.pkl"
 
-
     INT_SINGLE_FILE_800 = os.path.join(S5_8, "800_S5_means_bgsub.csv")
     INT_SINGLE_FILE_920 = os.path.join(S5_9, "920_S5_means_bgsub.csv")
-    INT_DIR_800 = S7
+    INT_DIR_800 = S7  
     INT_DIR_920 = S7
 
     # --- Visualization ---
-    CMAP_NAME = "grad"   
+    CMAP_NAME = "grad" 
     DRAW_OUTLINES = True
     SAVE_PER_CELL_MASKS = True
     PER_CELL_MASK_DIR = os.path.join(S7, "S7_proj_masks")
@@ -53,57 +53,53 @@ def run_S7_manual_link_ratio_and_projection(
     FALLBACK_DISK_RADIUS = 6  # px
 
     ALPHA_BLEND = False
-    ALPHA_PER_CELL = 0.6
+    ALPHA_PER_CELL = 0.6  
 
     os.makedirs(S7, exist_ok=True)
 
-    # 1) raw maps & sizes
     raw800_map, z800_list, size_hw = load_raw_map("800", VIEW_DIR)
     raw920_map, z920_list, _ = load_raw_map("920", VIEW_DIR)
     z_common = sorted(set(z800_list).intersection(z920_list))
     if not z_common:
         raise RuntimeError("No common Z numbers between 800 and 920.")
     z_min = max(Z_MIN, z_common[0]); z_max = min(Z_MAX, z_common[-1])
-    # print_safe(f"Using Z range: [{z_min}, {z_max}] (within common Zs {z_common[0]}..{z_common[-1]})")
+    print_safe(f"Using Z range: [{z_min}, {z_max}] (within common Zs {z_common[0]}..{z_common[-1]})")
 
-    # 2) per-Z transforms (slice -> 800 REF) and 800 centroids
     A800_by_z, _ = _estimate_perZ_transforms_from_json("800", z800_list, S2_8, S2_9)
     mask_map_800 = index_maskstacks("800", S2_8, S2_9)
     cent8_z = _per_track_centroids_perZ_ref(
         S2_8, S2_9, "800", z800_list, A800_by_z, mask_map=mask_map_800
-    )  
+    )
 
-    # 3) manual mapping
-    m = load_manual_map(MAPPING_CSV)
+
+    m = load_manual_map(MAPPING_CSV)  
     track_ids_800 = list(m.keys())
 
 
-    # 4) intensity tables
+
     tab800 = _load_intensity_table(
         channel="800",
         INT_SINGLE_FILE_800=INT_SINGLE_FILE_800,
         INT_SINGLE_FILE_920=INT_SINGLE_FILE_920,
         INT_DIR_800=INT_DIR_800,
         INT_DIR_920=INT_DIR_920,
-    )   
+    )  
     tab920 = _load_intensity_table(
         channel="920",
         INT_SINGLE_FILE_800=INT_SINGLE_FILE_800,
         INT_SINGLE_FILE_920=INT_SINGLE_FILE_920,
         INT_DIR_800=INT_DIR_800,
         INT_DIR_920=INT_DIR_920,
-    )
+    )   
 
-    # 5) limit Z range if requested
     if RATIO_USE_Z_RANGE:
         tab800 = tab800[(tab800["z"] >= z_min) & (tab800["z"] <= z_max)].copy()
         tab920 = tab920[(tab920["z"] >= z_min) & (tab920["z"] <= z_max)].copy()
 
-    # 6) compute per-track maxima
+
     max800 = tab800.groupby("track_id", as_index=False)["value"].max().rename(columns={"value": "max800"})
     max920 = tab920.groupby("track_id", as_index=False)["value"].max().rename(columns={"value": "max920"})
 
-    # 7) build results with ratio and centroid (key by 800 id)
     rows = []
     for t800, t920 in m.items():
         v800 = max800[max800["track_id"] == t800]["max800"]
@@ -137,9 +133,7 @@ def run_S7_manual_link_ratio_and_projection(
     unions = _compute_unions_for_tracks(z800_list, size_hw, track_ids_800, z_min, z_max, mask_map_800)
 
     n_nonzero = sum(1 for _, _, a in unions if a > 0)
-    #print_safe(f"S7: unions >0 for {n_nonzero}/{len(track_ids_800)} mapped cells in Z[{z_min},{z_max}]")
 
-    # --- Custom colormap + sampler (RGB uint8, no alpha) ---
     cmap = LinearSegmentedColormap.from_list(
         "grad",
         ["#006400", "#66A05B", "#FFA500", "#FF8C00"],
@@ -152,7 +146,7 @@ def run_S7_manual_link_ratio_and_projection(
         """
         vals = np.asarray(vals, dtype=np.float32)
         vals = np.clip(vals, 0.0, 1.0)
-        rgba = cmap(vals)               
+        rgba = cmap(vals)                
         rgb = (rgba[..., :3] * 255).astype(np.uint8)
         return rgb
 
@@ -167,15 +161,14 @@ def run_S7_manual_link_ratio_and_projection(
 
     def _ratio_to_bgr(r):
         if not np.isfinite(r):
-            return np.array([30, 30, 30], np.uint8)  
+            return np.array([30, 30, 30], np.uint8)
         nv = _norm(r)
         if not np.isfinite(nv):
             return np.array([30, 30, 30], np.uint8)
-        rgb = sampler(np.array([nv]))[0]  
-        return rgb[::-1]  
+        rgb = sampler(np.array([nv]))[0]
+        return rgb[::-1] 
 
     if ALPHA_BLEND:
-        
         canvas = vis.astype(np.float32)
         for tid, union, area in unions:
             if area == 0:
@@ -185,7 +178,6 @@ def run_S7_manual_link_ratio_and_projection(
             canvas = canvas * (1.0 - mask * ALPHA_PER_CELL) + bgr * (mask * ALPHA_PER_CELL)
         vis = np.clip(canvas, 0, 255).astype(np.uint8)
     else:
-        
         unions_sorted = sorted(unions, key=lambda x: x[2], reverse=True)
         for tid, union, _area in unions_sorted:
             if _area == 0:
@@ -193,7 +185,6 @@ def run_S7_manual_link_ratio_and_projection(
             bgr = _ratio_to_bgr(ratio_map.get(int(tid), np.nan))
             vis[union.astype(bool)] = bgr
 
-    
     if DRAW_OUTLINES:
         all_union = np.zeros((H, W), np.uint8)
         for _, u, a in unions:
@@ -204,11 +195,9 @@ def run_S7_manual_link_ratio_and_projection(
             borders = cv2.dilate(all_union, kernel, 1) - all_union
             vis[borders > 0] = (0, 0, 0)
 
-    
     if FORCE_DRAW_CENTROID_IF_NO_MASK:
         empty_tids = [tid for tid, _, area in unions if area == 0]
-        #if empty_tids:
-            #print_safe(f"S5: {len(empty_tids)} cells had empty masks in Z-range; drawing fallback disks at their centroids.")
+ 
         for tid in empty_tids:
             row = res[res["track_800"] == tid]
             if len(row) == 0:
@@ -218,10 +207,10 @@ def run_S7_manual_link_ratio_and_projection(
                 bgr = _ratio_to_bgr(ratio_map.get(tid, np.nan)).tolist()
                 cv2.circle(vis, (int(cx), int(cy)), FALLBACK_DISK_RADIUS, bgr, thickness=-1, lineType=cv2.LINE_AA)
 
+    # --- save a copy before drawing numeric labels ---
     vis_no_labels = vis.copy()
     out_png_nolabels = os.path.join(S7, "S7_ratio_projection_nolabels.tif")
     cv2.imwrite(out_png_nolabels, vis_no_labels)
-    #print_safe(f"S7: wrote pseudo-color projection (no labels) → {out_png_nolabels}")
 
     for r in res.itertuples(index=False):
         if not np.isfinite(r.centroid_x) or not np.isfinite(r.centroid_y):
@@ -237,12 +226,8 @@ def run_S7_manual_link_ratio_and_projection(
     out_png = os.path.join(S7, "S7_ratio_projection.tif")
     cv2.imwrite(out_png, vis)
 
-    #print_safe(f"S7: wrote results → {out_csv} (n={len(res)})")
-    #print_safe(f"S7: wrote pseudo-color projection → {out_png}")
-    #print_safe("S7 manual link + ratio: done.")
 
     # --- separate vertical colorbar image ---
-    print_safe(f"S7 colorbar: using RATIO_VMIN={RATIO_VMIN}, RATIO_VMAX={RATIO_VMAX}")
 
     bar_w, bar_h = 20, 360
     pad = 8
@@ -257,12 +242,13 @@ def run_S7_manual_link_ratio_and_projection(
     y_bot = pad + bar_h - 1
 
     for j in range(bar_h):
+
         frac = j / (bar_h - 1)
         v = RATIO_VMIN + frac * (RATIO_VMAX - RATIO_VMIN)
         norm_val = _norm(v)
         rgb = sampler(np.array([norm_val]))[0]  
         y = y_bot - j
-        cbar[y:y+1, pad:pad + bar_w, :] = rgb[::-1]  
+        cbar[y:y+1, pad:pad + bar_w, :] = rgb[::-1] 
 
     x_right = pad + bar_w
     tick_vals = [
@@ -286,7 +272,7 @@ def run_S7_manual_link_ratio_and_projection(
 
     out_cbar = os.path.join(S7, "S7_colorbar.tif")
     ok = cv2.imwrite(out_cbar, cbar)
-    #print_safe(f"S7: tried saving colorbar → {out_cbar}, success={ok}")
+
 
     # --- PKL: save payload used to render S7 projection ---
     if pickle_path is not None:
@@ -310,7 +296,7 @@ def run_S7_manual_link_ratio_and_projection(
             "draw_outlines": bool(DRAW_OUTLINES),
             "force_draw_centroid_if_no_mask": bool(FORCE_DRAW_CENTROID_IF_NO_MASK),
             "fallback_disk_radius": int(FALLBACK_DISK_RADIUS),
-            "label_image": None,  
+            "label_image": None,   
             "cells": [
                 {
                     "cell_id": int(tid),
@@ -330,4 +316,4 @@ def run_S7_manual_link_ratio_and_projection(
 
         with open(pickle_path, "wb") as f:
             pickle.dump(payload, f, protocol=pickle.HIGHEST_PROTOCOL)
-        #print_safe(f"S7: wrote projection payload PKL → {pickle_path}")
+        print_safe(f"S7: saved project")

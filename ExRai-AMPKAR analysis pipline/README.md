@@ -3,7 +3,7 @@
 ## Overview
 This pipeline performs cell segmentation, tracking, and ratiometric signal extraction from two-photon imaging datasets acquired with alternating excitation wavelengths (800 nm and 920 nm).
 
-It is designed for experiments where the same fluorescent reporter is measured under two excitation conditions and compared at the single-cell level.
+It is designed for experiments in which the same fluorescent reporter is measured under two alternating excitation conditions and compared at the single-cell level.
 
 ---
 
@@ -16,6 +16,25 @@ It is designed for experiments where the same fluorescent reporter is measured u
 - Size-consistency filtering
 - Final per-cell ratio computation
 - Pseudo-colored visualization output
+
+---
+## Repository Structure
+
+### `ExRai_ratio_video_analysis/`
+Top-level entry point for the analysis pipeline.
+
+- Contains the main notebook (`per_view_analysis.ipynb`) to run per-view processing
+- Includes shared utilities and model code used across all steps
+- Implements the full pipeline described in the Workflow section
+
+### `example_images/`
+Contains example datasets for testing and demonstration.
+
+- Organized by view (e.g., `view1/`)
+- Each view includes paired two-photon image stacks:
+  - 800 nm excitation
+  - 920 nm excitation
+- Images show labeled cells acquired using two-photon microscopy under alternating excitation wavelengths (800–920 nm)
 
 ---
 
@@ -31,12 +50,12 @@ pip install numpy scipy scikit-image opencv-python tifffile matplotlib torch seg
 
 Each dataset ("view") must contain:
 - Paired TIFF stacks:
-  - `800_*.tif`
-  - `920_*.tif`
+  - `800_ch02_T***.tif`
+  - `920_ch02_T***.tif`
 
 Requirements:
 - Same field of view
-- Same Z-depth
+- Aprox similar Z-depth
 - Preprocessed (renamed and paired)
 
 ---
@@ -84,7 +103,7 @@ Requirements:
 ---
 
 ### S6 – Size Filtering
-- Remove mismatched cell pairs
+- Remove mismatched cell pairs 
 - Based on mask size consistency
 
 ---

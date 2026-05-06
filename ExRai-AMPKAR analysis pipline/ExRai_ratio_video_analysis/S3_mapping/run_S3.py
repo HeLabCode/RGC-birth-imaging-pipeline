@@ -84,7 +84,6 @@ def run_S3_mapping(z800, z920, max_dist, offset_x, offset_y, method, VIEW_DIR, S
     os.makedirs(S3, exist_ok=True)
 
     save_path = os.path.join(S3, "Matching_map.csv")
-    print(f"💾 Saving final mapping to: {save_path}")
 
     interactive_consensus_editor(
         per800, init_map, save_path=save_path

@@ -49,9 +49,3 @@ Across all modules, the repository covers:
 - **Interactive where needed**: manual steps included for quality control  
 - **Scalable**: supports both small datasets and larger experiments  
 
----
-
-## Requirements
-
-Each subfolder contains its own dependencies.  
-Typical required libraries include:

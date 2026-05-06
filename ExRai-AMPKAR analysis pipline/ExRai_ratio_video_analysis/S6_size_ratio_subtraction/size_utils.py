@@ -89,45 +89,60 @@ def collect_best_slices(mask_map, raw_stack=None):
 
 # ----------  Compute area ratios ----------
 
-def compute_area_ratios(mapping_csv, mask_map_800, mask_map_920):
+def compute_area_ratios(mapping_csv, mask_map_800, mask_map_920, raw_stack_800, raw_stack_920):
     """
-    Compute area ratios between matched 800 nm and 920 nm cells.
+    Compute size ratios between matched 800 nm and 920 nm cell pairs.
 
-    Uses the provided cross-channel mapping and the best-slice information
-    from each mask stack (via `collect_best_slices`). For each mapped pair,
-    it computes the ratio between the larger and smaller area/intensity
-    as a symmetric measure of size difference.
+    For each mapped pair, the representative mask in each channel is selected
+    from the Z-slice where that cell reaches its highest mean raw intensity.
+    The area of the selected 800 nm mask is then compared with the area of the
+    selected 920 nm mask using a symmetric ratio.
 
     Parameters
     ----------
     mapping_csv : str
-        Path to the CSV file containing the 800→920 mapping.
+        Path to the CSV file containing the 800→920 cell mapping.
     mask_map_800, mask_map_920 : dict
-        Dictionaries mapping track IDs → mask stack file paths
-        for the 800 nm and 920 nm channels.
+        Dictionaries mapping track IDs to mask stack file paths for the
+        800 nm and 920 nm channels.
+    raw_stack_800, raw_stack_920 : ndarray
+        Raw image stacks for the 800 nm and 920 nm channels, in the same
+        Z-order as the corresponding mask stacks.
 
     Returns
     -------
     pandas.DataFrame
-        Columns:
+        Table with one row per mapped pair. Columns include:
         - track_800, track_920 : paired cell IDs
-        - area800, area920     : measured areas (or intensities)
-        - ratio_symmetric      : larger/smaller ratio
-        - z800_best, z920_best : Z-indices of best slices
+        - area800, area920 : areas of the selected best-intensity masks
+        - ratio_symmetric : larger/smaller area ratio
+        - z800_best, z920_best : selected Z-slices for each channel
+        - intensity800_best, intensity920_best : mean raw intensities used
+          to select the representative masks
     """
+
     df = pd.read_csv(mapping_csv)
     mapping = dict(zip(df.track_800, df.track_920))
 
-    best800 = collect_best_slices(mask_map_800)
-    best920 = collect_best_slices(mask_map_920)
+    best800 = collect_best_slices(mask_map_800, raw_stack_800)
+    best920 = collect_best_slices(mask_map_920, raw_stack_920)
 
     rows = []
     for t800, t920 in mapping.items():
         if t800 not in best800 or t920 not in best920:
             continue
-        area800, z800 = best800[t800]
-        area920, z920 = best920[t920]
+
+        intensity800, z800 = best800[t800]
+        intensity920, z920 = best920[t920]
+
+        mask800, _, _ = get_best_slice_from_maskstack(mask_map_800[t800], raw_stack_800)
+        mask920, _, _ = get_best_slice_from_maskstack(mask_map_920[t920], raw_stack_920)
+
+        area800 = int(mask800.sum()) if mask800 is not None else 0
+        area920 = int(mask920.sum()) if mask920 is not None else 0
+
         ratio = max(area800, area920) / min(area800, area920) if (area800 > 0 and area920 > 0) else np.nan
+
         rows.append({
             "track_800": t800,
             "track_920": t920,
@@ -135,9 +150,11 @@ def compute_area_ratios(mapping_csv, mask_map_800, mask_map_920):
             "area920": area920,
             "ratio_symmetric": ratio,
             "z800_best": z800,
-            "z920_best": z920
+            "z920_best": z920,
+            "intensity800_best": intensity800,
+            "intensity920_best": intensity920,
         })
-    return pd.DataFrame(rows)
 
+    return pd.DataFrame(rows)
 
 

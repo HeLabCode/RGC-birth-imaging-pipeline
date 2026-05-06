@@ -139,7 +139,7 @@ def interactive_final_viewer_with_dual_masks(stack800, stack920,
                             for k, v in kept_pairs_all.items()])
             df.to_csv(save_path, index=False)
             with out:
-                print(f"✅ Saved filtered mapping to {save_path}")
+                print(f"✅ Saved filtered mapping")
         else:
             with out:
                 print("⚠️ No pairs within illumination region!")

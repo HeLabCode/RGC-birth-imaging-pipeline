@@ -157,7 +157,6 @@ def _load_model(model_path):
     """
     device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
     print("Using device:", device)
-    print("Loading model:", model_path)
 
     nn_model = Unet(
         encoder_name="resnet50",

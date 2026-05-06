@@ -18,6 +18,22 @@ The workflow is designed for retinal imaging datasets where spatial context is i
 
 ---
 
+## Repository Structure
+
+### `example_images/`
+Example input images used to test the hexbin map generation.
+
+- Includes paired pS6 and RBPMS images
+- Images are cropped, aligned, and ready for analysis
+
+### `output_hexbin_plot/`
+Folder containing the generated hexbin map outputs.
+
+### `Hexbin_plot_code.ipynb`
+Main notebook used to run the hexbin analysis and generate the maps.
+
+
+---
 ## Requirements
 Install required packages:
 

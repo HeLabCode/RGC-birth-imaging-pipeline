@@ -47,13 +47,13 @@ def interactive_consensus_editor(per800, mapping_init, save_path=None, n_cols=7)
         final_map = {t800: dd.value for t800, dd in editors.items() if dd.value is not None}
         with out:
             out.clear_output()
-            print("✅ Final mapping saved:")
+            print("✅ Final mapping:")
             print(" | ".join([f"800:{k}→920:{v}" for k, v in final_map.items()]))
         if save_path:
             pd.DataFrame([{"track_800": k, "track_920": v} for k, v in final_map.items()])\
                 .to_csv(save_path, index=False)
             with out:
-                print(f"📁 Saved to {save_path}")
+                print(f"📁 Saved")
 
     save_btn = widgets.Button(description="Save Final Map", button_style="success")
     save_btn.on_click(on_save)

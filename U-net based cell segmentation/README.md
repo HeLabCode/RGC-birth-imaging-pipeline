@@ -12,15 +12,15 @@ The pipeline is designed to train a segmentation model that generalizes across h
 ## Features
 - Group-aware train/validation/test splitting
 - Image and mask preprocessing
-- Data augmentation with Albumentations
-- U-Net segmentation model with ResNet-50 encoder
-- ImageNet-pretrained encoder weights
+- Data augmentation with Albumentations (Buslaev et al., 2020 [6])
+- U-Net segmentation model with ResNet-50 encoder (Ronneberger et al., 2015 [1]; He et al., 2016 [3])
+- ImageNet-pretrained encoder weights (Deng et al., 2009 [4])
 - Composite BCE + Dice loss
 - Two-stage transfer learning:
   - frozen encoder training
   - full-model fine-tuning
 - Early stopping based on validation Dice
-- Optuna hyperparameter search
+- Optuna hyperparameter search (Akiba et al., 2019 [9])
 - Validation-based threshold selection
 - Held-out test evaluation
 - Per-image metric reporting
@@ -75,6 +75,8 @@ Install the required packages:
 ```bash
 pip install numpy pandas matplotlib opencv-python torch scikit-learn albumentations segmentation-models-pytorch optuna natsort tifffile
 ```
+
+The main libraries used in this workflow are PyTorch for model training and tensor operations (Paszke et al., 2019 [5]), Albumentations for data augmentation (Buslaev et al., 2020 [6]), Segmentation Models PyTorch for the implementation of the U-Net architecture (Iakubovskii, 2019 [2]), and Optuna for hyperparameter optimization (Akiba et al., 2019 [9]).
 
 ---
 
@@ -136,18 +138,18 @@ Images are:
 - normalized
 - converted to tensors
 
-Training data receives stochastic augmentation.  
+Training data receives stochastic augmentation using Albumentations (Buslaev et al., 2020 [6]).  
 Validation and test data use deterministic preprocessing.
 
 ---
 
 ### 5. Model Architecture
-The model is a U-Net implemented with `segmentation-models-pytorch`.
+The model is a U-Net (Ronneberger et al., 2015 [1]) implemented with `segmentation-models-pytorch` (Iakubovskii, 2019 [2]).
 
 Main settings:
 - U-Net architecture
-- ResNet-50 encoder
-- ImageNet-pretrained encoder weights
+- ResNet-50 encoder (He et al., 2016 [3])
+- ImageNet-pretrained encoder weights (Deng et al., 2009 [4])
 - Single-channel binary segmentation output
 
 ---
@@ -156,6 +158,8 @@ Main settings:
 Training uses a combined loss:
 - Binary cross-entropy with logits
 - Dice loss
+
+The Dice-loss implementation is provided through Segmentation Models PyTorch (Iakubovskii, 2019 [2]), and BCE follows the PyTorch implementation of `binary_cross_entropy_with_logits` (Paszke et al., 2019 [5]).
 
 Metrics include:
 - Dice
@@ -182,7 +186,7 @@ Validation Dice is used for model selection and early stopping.
 ---
 
 ### 8. Hyperparameter Optimization
-Optuna is used to search over parameters such as:
+Optuna is used for hyperparameter optimization (Akiba et al., 2019 [9]) and searches over parameters such as:
 - batch size
 - learning rate
 - freeze epochs
@@ -246,3 +250,16 @@ This helps estimate:
 - Inspect image-mask alignment before training.
 - Check qualitative predictions, not only numerical metrics.
 - Save the selected threshold together with the final model checkpoint.
+
+---
+
+## References
+
+1. Ronneberger O, Fischer P, Brox T. U-Net: Convolutional Networks for Biomedical Image Segmentation. MICCAI, 2015.  
+2. Iakubovskii P. Segmentation Models PyTorch. 2019.  
+3. He K, Zhang X, Ren S, Sun J. Deep Residual Learning for Image Recognition. CVPR, 2016.  
+4. Deng J, Dong W, Socher R, Li LJ, Li K, Fei-Fei L. ImageNet: A Large-Scale Hierarchical Image Database. CVPR, 2009.  
+5. Paszke A, Gross S, Massa F, et al. PyTorch: An Imperative Style, High-Performance Deep Learning Library. NeurIPS, 2019.  
+6. Buslaev A, Iglovikov VI, Khvedchenya E, Parinov A, Druzhinin M, Kalinin AA. Albumentations: Fast and Flexible Image Augmentations. Information. 2020;11:125.  
+8. Loshchilov I, Hutter F. Decoupled Weight Decay Regularization. ICLR, 2019.  
+9. Akiba T, Sano S, Yanase T, Ohta T, Koyama M. Optuna: A Next-generation Hyperparameter Optimization Framework. KDD, 2019.

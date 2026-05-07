@@ -69,27 +69,27 @@ Folder structure:
 
 ```text
 ├── condition1/
-│   ├── view1/
+│   ├── v1/
 │   │   ├──ph_n1
 │   │   │   ├── ch00_MIP.tif
 │   │   │   └── ch01_MIP.tif
 │   │   ├──ph_n2
 │   │       ├── ch00_MIP.tif
 │   │       └── ch01_MIP.tif
-│   ├── view2/
+│   ├── v2/
 │   │   ├──ph_n1
 │   │       ├── ch00_MIP.tif
 │   │       └── ch01_MIP.tif
 │   └── ...
 └── condition2/
-│   ├── view1/
+│   ├── v1/
 │   │   ├──ph_n1
 │   │   │   ├── ch00_MIP.tif
 │   │   │   └── ch01_MIP.tif
 │   │   ├──ph_n2
 │   │       ├── ch00_MIP.tif
 │   │       └── ch01_MIP.tif
-│   ├── view2/
+│   ├── v2/
 │   │   ├──ph_n1
 │   │       ├── ch00_MIP.tif
 │   │       └── ch01_MIP.tif
@@ -154,21 +154,21 @@ Masks and overlays are saved in a mirrored folder structure:
 ```text
 example_MIP_images/
 ├── condition1_mask/
-│   ├── view1/
+│   ├── v1/
 │   │   ├──ph_n1
 │   │   │   ├── ch00_labels.npy
 │   │   │   └── ch00_overlay.png
 │   │   ├──ph_n2
 │   │   │   ├── ch00_labels.npy
 │   │   │   └── ch00_overlay.png
-│   ├── view2/
+│   ├── v2/
 │   └── ...
 └── condition2_mask/
-    ├── view1/
+    ├── v1/
 │   │   ├──ph_n1
 │   │   │   ├── ch00_labels.npy
 │   │   │   └── ch00_overlay.png
-    ├── view2/
+    ├── v2/
     └── ...
 ```
 

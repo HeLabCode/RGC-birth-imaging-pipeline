@@ -1,29 +1,27 @@
 # Video Analysis Pipeline
 
 ## Overview
-This notebook analyzes time-lapse microscopy videos using manually defined cell masks, drift correction, centroid extraction, and cell tracking.
 
-The workflow loads selected video frames and corresponding segmentation masks, corrects global image drift using manually selected anchor points, tracks cells across frames, and generates quality-control videos and trajectory visualizations.
+This notebook analyzes time-lapse microscopy videos at the bulk image level.
 
-This notebook is marked as it has not been completed yet
+The workflow loads selected video frames and corresponding segmentation masks, previews raw image sequences, generates mask overlays, and produces quality-control videos and visualizations. The pipeline is intended for inspecting image quality, mask quality, frame ordering, channel visibility, and overall bulk-level behavior across time.
+
+This notebook is marked as not completed yet.
 
 ---
 
 ## Features
+
 - Load multi-frame TIFF image sequences
 - Match video frames with manually generated mask files
 - Preview raw videos
-- Manual anchor-point collection for drift correction
-- Global drift interpolation and correction
-- Drift correction of image stacks and mask stacks
-- Overlay masks on raw or corrected videos
-- Extract cell centroids from labeled masks
-- Track cells across frames using TrackPy
-- Merge nearby duplicated tracks
-- Remove short or blinking tracks
-- Visualize centroid projections
-- Display tracking overlays in Jupyter
-- Save overlay and tracking videos
+- Load manually generated segmentation masks
+- Convert supported mask formats into labeled mask images
+- Overlay masks on raw videos
+- Generate mask quality-control videos
+- Display frame-by-frame image and mask overlays in Jupyter
+- Save overlay videos for inspection
+- Produce bulk-level visual summaries of image and mask data
 
 ---
 
@@ -32,7 +30,7 @@ This notebook is marked as it has not been completed yet
 Install the required packages:
 
 ```bash
-pip install numpy pandas matplotlib tifffile scikit-image scipy opencv-python natsort trackpy imagecodecs
+pip install numpy pandas matplotlib tifffile scikit-image scipy opencv-python natsort imagecodecs
 ```
 
 ---
@@ -46,8 +44,11 @@ The notebook expects:
 - Matching frame indices between image files and mask files
 
 Example expected data:
-- raw image frames: `*.tif`
-- mask files: `*_regiongrow_labels_T*.npy`
+
+```text
+raw image frames: *.tif
+mask files: *_regiongrow_labels_T*.npy
+```
 
 The image stack and mask stack must refer to the same selected time points.
 
@@ -56,100 +57,74 @@ The image stack and mask stack must refer to the same selected time points.
 ## Workflow
 
 ### 1. Load Videos
+
 The notebook loads selected TIFF frames from the experiment folder and organizes them by channel.
 
 It also detects which time points have corresponding mask files, then keeps only frames available across all required channels.
 
+This ensures that the raw image data and mask data are synchronized before downstream analysis.
+
 ---
 
-### 2. Preview Video
+### 2. Preview Raw Video
+
 Raw image stacks can be played using OpenCV to check:
 
-- image quality
-- motion
-- channel visibility
-- frame ordering
-- obvious acquisition artifacts
+- Image quality
+- Frame ordering
+- Channel visibility
+- Motion across the field of view
+- Obvious acquisition artifacts
+- Missing or corrupted frames
+
+This step is used for basic quality control before analyzing the masks.
 
 ---
 
-### 3. Manual Anchor Point Selection
-Anchor points are selected manually across the video.
+### 3. Load Manual Masks
 
-These points are used to estimate global motion of the field of view over time.
+The notebook loads manually generated segmentation masks from `.npy` files.
 
----
+Supported mask formats are converted into labeled mask images, where each segmented region has a unique label.
 
-### 4. Global Drift Correction
-The selected anchor positions are interpolated across frames.
-
-The resulting shift vectors are used to correct:
-
-- raw image stack
-- labeled mask stack
-
-Outputs can include:
-
-- drift vector plot
-- `shift_vectors.npy`
-- `drift_corrected_stack.tif`
+This allows the masks to be visualized consistently across frames.
 
 ---
 
-### 5. Load Manual Masks
-The notebook loads manually defined segmentation masks from `.npy` files.
+### 4. Mask and Image Overlay
 
-Supported mask formats are converted into labeled mask images so each cell has a unique label.
+The notebook can display or save overlays showing segmentation masks on top of the raw video.
 
----
+Example output:
 
-### 6. Mask and Image Overlay
-The notebook can display or save overlays showing segmentation masks on top of the raw or drift-corrected video.
+```text
+overlay.mp4
+```
 
-Example outputs:
+These videos are used to verify:
 
-- `overlay.mp4`
-- `overlay_drift_corrected.mp4`
-
-These videos are used for quality control before tracking.
-
----
-
-### 7. Centroid Extraction
-Centroids are extracted from labeled masks for every frame.
-
-Each detected object is converted into a coordinate table containing:
-
-- frame index
-- x coordinate
-- y coordinate
-- object identity
+- Whether masks align with the raw image signal
+- Whether masks are present for the expected frames
+- Whether segmentation quality is consistent over time
+- Whether large-scale changes in the sample are visible
+- Whether the selected channel is appropriate for mask inspection
 
 ---
 
-### 8. Cell Tracking
-Cell centroids are linked across frames using TrackPy.
+### 5. Bulk-Level Visualization
 
-The pipeline can then:
+The notebook provides visualization tools for inspecting the image sequence and masks at the whole-frame level.
 
-- assign persistent track IDs
-- merge nearby duplicated tracks
-- remove unstable blinking tracks
-- keep longer, more reliable tracks
+Possible visual outputs include:
 
----
+- Raw video playback
+- Mask-only playback
+- Raw image with mask overlay
+- Frame-by-frame inspection plots
+- Summary projections across time
+- Saved quality-control videos
 
-### 9. Tracking Visualization
-The notebook provides several visualization tools:
-
-- 2D centroid projection
-- tracking overlay playback
-- tracking overlay with masks
-- single-cell trajectory playback
-- saved tracking overlay videos
-- saved trajectory trail videos
-
-These outputs help verify whether tracks are biologically plausible and technically stable.
+These outputs help assess whether the dataset is usable before downstream quantitative analysis.
 
 ---
 
@@ -157,13 +132,12 @@ These outputs help verify whether tracks are biologically plausible and technica
 
 Typical outputs include:
 
-- drift-corrected image stack
-- drift vectors
-- mask overlay videos
-- tracking overlay videos
-- trajectory visualizations
-- cleaned tracking table
-- centroid projection plots
+- Loaded image stack
+- Loaded mask stack
+- Mask overlay videos
+- Frame-level quality-control plots
+- Bulk-level image projections
+- Bulk-level mask visualizations
 
 ---
 
@@ -171,24 +145,23 @@ Typical outputs include:
 
 Adjust these before reuse:
 
-- experiment folder path
-- mask folder path
-- image extension
-- channel name
-- video playback FPS
-- anchor selection interval
-- TrackPy search range
-- track merging distance
-- minimum track length
-- maximum allowed frame gap
-- output video FPS
+- Experiment folder path
+- Mask folder path
+- Image extension
+- Channel name
+- Selected frame range
+- Video playback FPS
+- Output video FPS
+- Overlay transparency
+- Mask display settings
 
 ---
 
 ## Notes
 
 - This notebook contains hard-coded local paths and should be edited before running on a new system.
-- Manual anchor placement strongly affects drift correction quality.
-- Track quality should be checked visually before downstream analysis.
-- Mask quality determines centroid and tracking accuracy.
-- Save intermediate outputs so drift correction and tracking can be inspected independently.
+- Image files and mask files must refer to the same time points.
+- Mask quality should be checked visually before downstream analysis.
+- Frame ordering should be verified before saving videos.
+- Save intermediate outputs so image loading, mask loading, and overlays can be inspected independently.
+- This version focuses on bulk-level video and mask quality control only.

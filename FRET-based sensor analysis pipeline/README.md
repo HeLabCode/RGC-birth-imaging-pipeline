@@ -142,6 +142,6 @@ Typical outputs include:
 ## Notes
 
 - Ensure donor and acceptor channels are properly aligned before analysis.
-- Mask quality directly affects FRET quantification accuracy.
+- Binary can be generated both manual or based on the NN segmentation
 - Consistent visualization ranges should be maintained across experiments for comparison.
 - File paths inside the notebook may need adjustment before running on a new system.

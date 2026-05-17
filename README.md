@@ -1,9 +1,9 @@
 # RGC-birth-imaging-pipeline
 
 ## Overview
-This repository contains a complete set of analysis pipelines for retinal imaging experiments, focused on cell segmentation, tracking, and ratiometric signal analysis across multiple experimental contexts.
+This repository contains a complete set of analysis pipelines for retinal imaging experiments, focused on cell segmentation, tracking, and ratiometric/FRET-based signal analysis across multiple experimental contexts.
 
-The codebase consolidates independent workflows into a single structured repository, covering both in vitro and in vivo imaging, static and time-lapse data, and classical as well as deep learning–based approaches.
+The codebase consolidates independent workflows into a single structured repository, covering both in vitro and in vivo imaging, static and time-lapse data.
 
 ---
 
@@ -14,7 +14,7 @@ The repository is organized into modular folders, each corresponding to a specif
 - **ExRai-AMPKAR analysis pipeline**  
   Ratiometric analysis pipeline for AMPKAR-based imaging experiments.
 
-- **FRET-based sensor analysis**  
+- **FRET-based sensor analysis pipeline**  
   Per-cell FRET efficiency analysis from paired donor and acceptor fluorescence images using a binary segmentation mask. Includes signal extraction, EFRET calculation, pseudocolor visualization, and CSV output.
 
 - **Hexbin plot for p-S6 signal in retina section**  
@@ -33,12 +33,11 @@ The repository is organized into modular folders, each corresponding to a specif
 Across all modules, the repository covers:
 
 - Image preprocessing and normalization  
-- Cell segmentation (classical + deep learning)  
+- Cell segmentation
 - Manual and semi-automated refinement  
 - Spatial analysis and visualization  
 - Time-lapse drift correction and tracking  
 - Ratiometric and FRET-based signal extraction 
-- Model training and evaluation  
 
 ---
 

@@ -47,6 +47,13 @@ Metadata file defining groups of similar images.
 Qualitative comparison between manual annotations and model predictions.
 - Includes zoomed examples used for visualization (figures in the paper)
 
+### `Running_NN/`
+Example notebook for running the trained neural network on new images.
+
+- `NN_binary_mask.ipynb` runs the trained U-Net on a single image or a folder of images
+- Outputs predicted binary masks
+- Uses `best_semantic_model.pth`
+
 ### `semantic_segmentation_output/`
 Outputs from the trained U-Net model.
 

@@ -1,0 +1,35 @@
+# Recommended Python version: >=3.9
+
+# Notebook environment
+jupyter
+jupyterlab
+ipykernel
+ipywidgets
+
+# Core scientific Python
+numpy
+pandas
+scipy
+matplotlib
+
+# Image processing and TIFF I/O
+scikit-image
+tifffile
+opencv-python
+Pillow
+imageio
+
+# Machine learning / neural network segmentation
+torch
+torchvision
+segmentation-models-pytorch
+albumentations
+scikit-learn
+optuna
+natsort
+
+# Cell segmentation
+cellpose
+
+# Tracking / analysis utilities
+trackpy

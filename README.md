@@ -14,8 +14,8 @@ The repository is organized into modular folders, each corresponding to a specif
 - **ExRai-AMPKAR analysis pipeline**  
   Ratiometric analysis pipeline for AMPKAR-based imaging experiments.
 
-- **FRET-based imaging analysis**  
-  Per-view pipeline for extracting excitation ratios from two-photon datasets (800 nm / 920 nm), including segmentation, tracking, and filtering.
+- **FRET-based sensor analysis**  
+  Per-cell FRET efficiency analysis from paired donor and acceptor fluorescence images using a binary segmentation mask. Includes signal extraction, EFRET calculation, pseudocolor visualization, and CSV output.
 
 - **Hexbin plot for p-S6 signal in retina section**  
   Spatial aggregation and visualization of pS6 signal using hexbin-based ratio maps with preserved tissue context.
@@ -37,7 +37,7 @@ Across all modules, the repository covers:
 - Manual and semi-automated refinement  
 - Spatial analysis and visualization  
 - Time-lapse drift correction and tracking  
-- Ratiometric signal extraction  
+- Ratiometric and FRET-based signal extraction 
 - Model training and evaluation  
 
 ---

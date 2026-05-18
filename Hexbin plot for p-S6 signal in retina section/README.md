@@ -1,8 +1,8 @@
 # Hexbin Ratio Map Generation
 
 ## Overview
-This project generates spatial hexbin ratio maps from paired fluorescence images (pS6 and RBPMS).  
-The output visualizes relative pS6 signal across RBPMS-positive cells while preserving retinal structure.
+This project generates spatial hexbin ratio maps from paired fluorescence images (p-S6 and RBPMS).  
+The output visualizes relative p-S6 signal across RBPMS-positive cells while preserving retinal structure.
 
 The workflow is designed for retinal imaging datasets where spatial context is important.
 
@@ -13,7 +13,7 @@ The workflow is designed for retinal imaging datasets where spatial context is i
 - Tissue mask generation for anatomical context
 - Background estimation and subtraction
 - Hexbin-based spatial aggregation
-- Ratio calculation: mean(pS6) / mean(RBPMS)
+- Ratio calculation: mean(p-S6) / mean(RBPMS)
 - Export of vector figures (PDF, SVG)
 
 ---
@@ -23,7 +23,7 @@ The workflow is designed for retinal imaging datasets where spatial context is i
 ### `example_images/`
 Example input images used to test the hexbin map generation.
 
-- Includes paired pS6 and RBPMS images
+- Includes paired p-S6 and RBPMS images
 - Images are cropped, aligned, and ready for analysis
 
 ### `output_hexbin_plot/`
@@ -46,7 +46,7 @@ pip install tifffile numpy matplotlib scipy
 ## Input Data
 - Cropped TIFF images (from Fiji/ImageJ)
 - Two aligned channels:
-  - pS6 image
+  - p-S6 image
   - RBPMS image
 
 Images must:
@@ -69,7 +69,7 @@ Import TIFF files as single-channel 2D arrays.
   - Connected component filtering
 
 - Tissue mask:
-  - Generated from pS6 image
+  - Generated from p-S6 image
   - Excludes RBPMS-positive regions
 
 ### 3. Background Subtraction
@@ -80,12 +80,12 @@ Import TIFF files as single-channel 2D arrays.
 ### 4. Hexbin Aggregation
 - Apply hexagonal binning to RBPMS-positive pixels
 - Compute per-bin:
-  - mean pS6
+  - mean p-S6
   - mean RBPMS
 
 ### 5. Ratio Map
 - Calculate ratio per bin:
-  - pS6 / RBPMS
+  - p-S6 / RBPMS
 - Exclude bins with zero RBPMS
 - Overlay on tissue mask for spatial context
 

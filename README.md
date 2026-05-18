@@ -18,7 +18,7 @@ The repository is organized into modular folders, each corresponding to a specif
   Per-cell FRET efficiency analysis from paired donor and acceptor fluorescence images using a binary segmentation mask. Includes signal extraction, EFRET calculation, pseudocolor visualization, and CSV output.
 
 - **Hexbin plot for p-S6 signal in retina section**  
-  Spatial aggregation and visualization of pS6 signal using hexbin-based ratio maps with preserved tissue context.
+  Spatial aggregation and visualization of p-S6 signal using hexbin-based ratio maps with preserved tissue context.
 
 - **In vitro analysis with Cellpose**  
   Segmentation and analysis of cultured cells using Cellpose-based workflows.

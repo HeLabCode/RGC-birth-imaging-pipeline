@@ -1,7 +1,7 @@
 # Cellpose Segmentation and Single-Cell Ratio Analysis
 
 ## Overview
-This workflow performs Cellpose-based segmentation and single-cell fluorescence ratio analysis on pre-computed MIP TIFF images.
+This workflow performs Cellpose-based segmentation and single-cell fluorescence ratio analysis on pre-computed max intensity projection (MIP) TIFF images.
 
 It extracts per-cell intensities from two channels and computes fluorescence ratios (e.g., `ch01 / ch00`) across experimental conditions.
 
@@ -20,7 +20,7 @@ It extracts per-cell intensities from two channels and computes fluorescence rat
 ## Repository Structure
 
 ### `example_MIP_images/`
-Input MIP images used for analysis.
+Input  max intensity projection (MIP) images used for analysis.
 
 - Contains paired channel images (e.g., `ch00`, `ch01`)
 - Organized by condition, pH and field of view

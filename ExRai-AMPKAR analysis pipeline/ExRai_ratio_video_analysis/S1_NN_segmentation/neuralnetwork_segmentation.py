@@ -164,7 +164,7 @@ def _load_model(model_path):
         in_channels=3,
         classes=1
     )
-    nn_model.load_state_dict(torch.load(model_path, map_location=device))
+    nn_model.load_state_dict(torch.load(model_path, map_location=device, weights_only = False))
     nn_model.to(device).eval()
 
     return nn_model, device

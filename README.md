@@ -50,15 +50,15 @@ Some workflows require interactive segmentation refinement, image registration, 
 
 The table below connects the **analysis underlying specific figure panels** to the relevant code. The notebooks process images and extract quantitative measurements; generation of an entire manuscript panel may additionally require the original experimental dataset, normalization, statistical analysis, and figure assembly.
 
-| Manuscript figure | Data or analysis | Relevant code | Availability |
-| --- | --- | --- | --- |
-| **Fig. 3b–e** | ExRai-AMPKAR imaging of kinase activity at birth, including *Snrk* loss of function | ExRai-AMPKAR analysis | Example workflow; figure-specific recordings on request |
-| **Fig. 4b, d** | ExRai-AMPKAR responses under altered CO₂ or O₂ | ExRai-AMPKAR analysis | Figure-specific recordings on request |
-| **Fig. 5a–d** | pHLemon-rev measurements of intracellular pH around breathing onset | FRET analysis; U-Net segmentation | Figure-specific recordings on request |
-| **Fig. 6b–c** | Adult RGC intracellular-pH and AMPK-family reporter measurements | FRET analysis; ExRai-AMPKAR analysis | Figure-specific recordings on request |
-| **Extended Data Fig. 13** | ATP and calcium reporter measurements | FRET analysis; U-Net segmentation | Figure-specific recordings on request |
-| **Extended Data Fig. 14** | Deep-learning segmentation and comparison with annotated cells | U-Net segmentation | Examples and model materials described in module README |
-| **Extended Data Figs. 15–18** | FRET correction, reporter calibration, and sensor-validation analyses | FRET analysis; cultured-cell analysis where applicable | Panel-specific input data on request |
+| Manuscript figure | Data or analysis | Relevant code |
+| --- | --- | --- | 
+| **Fig. 3b–e** | ExRai-AMPKAR imaging of kinase activity at birth, including *Snrk* loss of function | ExRai-AMPKAR analysis |
+| **Fig. 4b, d** | ExRai-AMPKAR responses under altered CO₂ or O₂ | ExRai-AMPKAR analysis | 
+| **Fig. 5a–d** | pHLemon-rev measurements of intracellular pH around breathing onset | FRET analysis; U-Net segmentation | 
+| **Fig. 6b–c** | Adult RGC intracellular-pH and AMPK-family reporter measurements | FRET analysis; ExRai-AMPKAR analysis |
+| **Extended Data Fig. 13** | ATP and calcium reporter measurements | FRET analysis; U-Net segmentation |
+| **Extended Data Fig. 14** | Deep-learning segmentation and comparison with annotated cells | U-Net segmentation | 
+| **Extended Data Figs. 15–18** | FRET correction, reporter calibration, and sensor-validation analyses | FRET analysis; cultured-cell analysis where applicable |
 
 **Additional workflow:** The p-S6 hexbin notebook generates spatial maps of p-S6 fluorescence relative to RBPMS signal in retinal sections. It should not be confused with the separate quantification of p-S6-positive RGC percentages.
 

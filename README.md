@@ -129,7 +129,7 @@ When requesting data, please specify the **figure and panel**, the **experimenta
 
 If you use this code, please cite the associated manuscript:
 
-Song, X., Cai, X., Hegarty, S. V., Speri, D., *et al.* **The Onset of Breathing at Birth Switches Off Regenerative Capacity.** [Publication details/DOI to be added.]
+Song, X., Cai, X., Hegarty, S. V., Speri, D., *et al.* **The Onset of Breathing at Birth Switches Off Regenerative Capacity.** 
 
 ## Contact
 

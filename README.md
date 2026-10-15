@@ -52,6 +52,7 @@ The table below connects the **analysis underlying specific figure panels** to t
 
 | Manuscript figure | Data or analysis | Relevant code |
 | --- | --- | --- | 
+| **Fig. 1a–c** | Maps of p-S6 fluorescence relative to RBPMS signal in retinal sections | Hexbin plot for p-S6 signal in retina section |
 | **Fig. 3b–e** | ExRai-AMPKAR imaging of kinase activity at birth, including *Snrk* loss of function | ExRai-AMPKAR analysis |
 | **Fig. 4b, d** | ExRai-AMPKAR responses under altered CO₂ or O₂ | ExRai-AMPKAR analysis | 
 | **Fig. 5a–d** | pHLemon-rev measurements of intracellular pH around breathing onset | FRET analysis; U-Net segmentation | 
@@ -59,8 +60,6 @@ The table below connects the **analysis underlying specific figure panels** to t
 | **Extended Data Fig. 13** | ATP and calcium reporter measurements | FRET analysis; U-Net segmentation |
 | **Extended Data Fig. 14** | Deep-learning segmentation and comparison with annotated cells | U-Net segmentation | 
 | **Extended Data Figs. 15–18** | FRET correction, reporter calibration, and sensor-validation analyses | FRET analysis; cultured-cell analysis where applicable |
-
-**Additional workflow:** The p-S6 hexbin notebook generates spatial maps of p-S6 fluorescence relative to RBPMS signal in retinal sections. It should not be confused with the separate quantification of p-S6-positive RGC percentages.
 
 For each figure, use the notebook named above to identify the input format and analysis steps, then consult its dedicated README. The table identifies the corresponding *analysis workflow*, not a complete executable figure-reproduction script.
 
@@ -107,16 +106,6 @@ The manuscript describes additional bleed-through correction and photon-flux nor
 **Output:** Model checkpoints (including `best_semantic_model.pth`), evaluation metrics, and predicted masks.
 
 **Notebooks:** `U_net_train_model_hparam_search.ipynb`; `Running_NN/NN_binary_mask.ipynb`
-
-## Data availability and figure reproduction
-
-Example images and, where applicable, masks or model files are described in the individual workflow folders. These are intended to demonstrate how to execute and adapt the analysis code.
-
-**The full experimental datasets used for every figure are not included in this repository release.** Original imaging data and relevant intermediate files for individual panels **can be requested from the corresponding author**, subject to availability and applicable sharing constraints.
-
-When requesting data, please specify the **figure and panel**, the **experimental condition**, and whether raw TIFFs, masks, processed measurements, or other intermediate files are needed.
-
-**Contact:** Zhigang He — Zhigang.He@childrens.harvard.edu
 
 ## Notes on reproducibility
 

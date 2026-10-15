@@ -53,15 +53,15 @@ The table below connects the **analysis underlying specific figure panels** to t
 | Manuscript figure | Data or analysis | Relevant code |
 | --- | --- | --- | 
 | **Fig. 1a–c** | Maps of p-S6 fluorescence relative to RBPMS signal in retinal sections | Hexbin plot for p-S6 signal in retina section |
-| **Fig. 3b–e** | ExRai-AMPKAR imaging of kinase activity at birth, including *Snrk* loss of function | ExRai-AMPKAR analysis |
-| **Fig. 4b, d** | ExRai-AMPKAR responses under altered CO₂ or O₂ | ExRai-AMPKAR analysis | 
-| **Fig. 5a–d** | pHLemon-rev measurements of intracellular pH around breathing onset | FRET analysis; U-Net segmentation | 
-| **Fig. 6b–c** | Adult RGC intracellular-pH and AMPK-family reporter measurements | FRET analysis; ExRai-AMPKAR analysis |
-| **Extended Data Fig. 13** | ATP and calcium reporter measurements | FRET analysis; U-Net segmentation |
-| **Extended Data Fig. 14** | Deep-learning segmentation and comparison with annotated cells | U-Net segmentation | 
-| **Extended Data Figs. 15–18** | FRET correction, reporter calibration, and sensor-validation analyses | FRET analysis; cultured-cell analysis where applicable |
+| **Fig. 3b–e** | ExRai-AMPKAR imaging of kinase activity at birth, including *Snrk* loss of function | ExRai-AMPKAR analysis pipeline|
+| **Fig. 4b, d** | ExRai-AMPKAR responses under altered CO₂ or O₂ | ExRai-AMPKAR analysis pipeline| 
+| **Fig. 5a–d** | pHLemon-rev measurements of intracellular pH around breathing onset | FRET-based sensor analysis pipeline| 
+| **Fig. 6b–c** | Adult RGC intracellular-pH and AMPK-family reporter measurements | FRET-based sensor analysis pipeline & ExRai-AMPKAR analysis pipeline  |
+| **Extended Data Fig. 13** | ATP and calcium reporter measurements | FRET-based sensor analysis pipeline |
+| **Extended Data Fig. 14** | Deep-learning segmentation and comparison with annotated cells | U-Net based cell segmentation | 
+| **Extended Data Figs. 15–18** | FRET correction, reporter calibration, and sensor-validation analyses | In vitro imaging analysis with Cellpose|
 
-For each figure, use the notebook named above to identify the input format and analysis steps, then consult its dedicated README. The table identifies the corresponding *analysis workflow*, not a complete executable figure-reproduction script.
+For each figure, use the notebook named above to identify the input format and analysis steps, then consult its dedicated README. The table identifies the corresponding *analysis workflow*.
 
 ## Analysis modules
 
@@ -111,8 +111,6 @@ The manuscript describes additional bleed-through correction and photon-flux nor
 
 - Each module's README specifies its expected filenames, directory structure, and dependencies.
 - Segmentation, alignment, background correction, and filtering should be checked for each new dataset.
-- Some workflows include interactive steps; example data demonstrate execution but are not necessarily the source data of a published panel.
-- Reproduction of complete figures may require additional data and downstream statistical or plotting steps not supplied here.
 
 ## Citation
 

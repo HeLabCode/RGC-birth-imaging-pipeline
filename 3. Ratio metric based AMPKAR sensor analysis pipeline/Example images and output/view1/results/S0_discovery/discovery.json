@@ -1,0 +1,30 @@
+{
+  "view_dir": "/Users/davidesperi/Desktop/HeLabCodegitHub/3. Ratio metric based AMPKAR sensor analysis pipeline/Example images and output/view1",
+  "n_800": 6,
+  "n_920": 5,
+  "Z_800": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "Z_920": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "first_800": [
+    "/Users/davidesperi/Desktop/HeLabCodegitHub/3. Ratio metric based AMPKAR sensor analysis pipeline/Example images and output/view1/800_ch2_Z001.tif",
+    "/Users/davidesperi/Desktop/HeLabCodegitHub/3. Ratio metric based AMPKAR sensor analysis pipeline/Example images and output/view1/800_ch2_Z002.tif",
+    "/Users/davidesperi/Desktop/HeLabCodegitHub/3. Ratio metric based AMPKAR sensor analysis pipeline/Example images and output/view1/800_ch2_Z003.tif"
+  ],
+  "first_920": [
+    "/Users/davidesperi/Desktop/HeLabCodegitHub/3. Ratio metric based AMPKAR sensor analysis pipeline/Example images and output/view1/920_ch2_Z001.tif",
+    "/Users/davidesperi/Desktop/HeLabCodegitHub/3. Ratio metric based AMPKAR sensor analysis pipeline/Example images and output/view1/920_ch2_Z002.tif",
+    "/Users/davidesperi/Desktop/HeLabCodegitHub/3. Ratio metric based AMPKAR sensor analysis pipeline/Example images and output/view1/920_ch2_Z003.tif"
+  ]
+}

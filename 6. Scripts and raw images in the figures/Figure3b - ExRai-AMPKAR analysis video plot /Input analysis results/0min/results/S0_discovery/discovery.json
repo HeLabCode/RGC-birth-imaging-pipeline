@@ -1,0 +1,39 @@
+{
+  "view_dir": "/Users/davidesperi/Desktop/HeLabCodegitHub/Figure3b - ExRai-AMPKAR analysis video plot /0min",
+  "n_800": 10,
+  "n_920": 10,
+  "Z_800": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "Z_920": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "first_800": [
+    "/Users/davidesperi/Desktop/HeLabCodegitHub/Figure3b - ExRai-AMPKAR analysis video plot /0min/800_ch2_Z001.tif",
+    "/Users/davidesperi/Desktop/HeLabCodegitHub/Figure3b - ExRai-AMPKAR analysis video plot /0min/800_ch2_Z002.tif",
+    "/Users/davidesperi/Desktop/HeLabCodegitHub/Figure3b - ExRai-AMPKAR analysis video plot /0min/800_ch2_Z003.tif"
+  ],
+  "first_920": [
+    "/Users/davidesperi/Desktop/HeLabCodegitHub/Figure3b - ExRai-AMPKAR analysis video plot /0min/920_ch2_Z001.tif",
+    "/Users/davidesperi/Desktop/HeLabCodegitHub/Figure3b - ExRai-AMPKAR analysis video plot /0min/920_ch2_Z002.tif",
+    "/Users/davidesperi/Desktop/HeLabCodegitHub/Figure3b - ExRai-AMPKAR analysis video plot /0min/920_ch2_Z003.tif"
+  ]
+}

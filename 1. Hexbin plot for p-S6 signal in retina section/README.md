@@ -11,10 +11,10 @@ The output preserves the outline of the surrounding retinal tissue for anatomica
 | Path | Description |
 | --- | --- |
 | [`Hexbin_plot_code.ipynb`](Hexbin_plot_code.ipynb) | Main notebook for mask generation, background subtraction, hexbin aggregation, and visualization |
-| [`example_images/Pre_birth_p-S6.tif`](example_images/Pre_birth_p-S6.tif) | Example p-S6 fluorescence image |
-| [`example_images/Pre_birth_RBPMS.tif`](example_images/Pre_birth_RBPMS.tif) | Matching example RBPMS fluorescence image |
-| [`output_hexbin_plot/Hexbin_map.pdf`](output_hexbin_plot/Hexbin_map.pdf) | Example exported vector figure (PDF) |
-| [`output_hexbin_plot/Hexbin_map.svg`](output_hexbin_plot/Hexbin_map.svg) | Example exported vector figure (SVG) |
+| [`Example images/Pre_birth_p-S6.tif`](Example%20images/Pre_birth_p-S6.tif) | Example p-S6 fluorescence image |
+| [`Example images/Pre_birth_RBPMS.tif`](Example%20images/Pre_birth_RBPMS.tif) | Matching example RBPMS fluorescence image |
+| [`Output hexbinm plot/Hexbin_map.pdf`](Output%20hexbinm%20plot/Hexbin_map.pdf) | Example exported vector figure (PDF) |
+| [`Output hexbinm plot/Hexbin_map.svg`](Output%20hexbinm%20plot/Hexbin_map.svg) | Example exported vector figure (SVG) |
 
 ## Example input data
 
@@ -23,7 +23,7 @@ The output preserves the outline of the surrounding retinal tissue for anatomica
 | Sample label in filenames | `Pre_birth` |
 | Image types | p-S6 fluorescence; RBPMS fluorescence |
 | Preparation | Retinal-section images, cropped/prepared for the analysis |
-| Image dimensions | 2856 × 1955 pixels, with 3 stored samples per pixel |
+| Image dimensions | 1955 pixels wide × 2856 pixels high, with 3 stored samples per pixel |
 | Data type | 8-bit unsigned integer TIFF |
 | Notebook preprocessing | Maximum across the last image axis to produce one 2D intensity image per TIFF |
 | Spatial relationship | Paired images must depict the same aligned field of view |
@@ -43,10 +43,10 @@ pip install numpy scipy matplotlib tifffile jupyterlab
 - [ ] Download or clone the repository, retaining the folders shown above.
 - [ ] Open a terminal in **this module's folder** (the directory containing `Hexbin_plot_code.ipynb`).
 - [ ] Start Jupyter with `jupyter lab` and open [`Hexbin_plot_code.ipynb`](Hexbin_plot_code.ipynb).
-- [ ] Confirm that the input paths in the loading cell are `./example_images/Pre_birth_p-S6.tif` and `./example_images/Pre_birth_RBPMS.tif`.
+- [ ] Confirm that the input paths in the loading cell are `./Example images/Pre_birth_p-S6.tif` and `./Example images/Pre_birth_RBPMS.tif`.
 - [ ] Run the notebook cells in order. Inspect the p-S6/RBPMS image previews and the RBPMS/tissue masks.
-- [ ] Confirm that `output_hexbin_plot/` exists before the final export cell.
-- [ ] Check the exported maps in [`output_hexbin_plot/`](output_hexbin_plot/): `Hexbin_map.pdf` and `Hexbin_map.svg`.
+- [ ] Create `Output hexbin plot/` before the final export cell; this is the export directory currently configured in the notebook.
+- [ ] Check the newly exported `Hexbin_map.pdf` and `Hexbin_map.svg` in `Output hexbin plot/`. The included reference exports are in [`Output hexbinm plot/`](Output%20hexbinm%20plot/).
 
 Running the notebook from its own folder matters because its input and output locations are **relative paths**. The notebook saves outputs using fixed filenames; rerunning it overwrites existing exported maps.
 
@@ -80,10 +80,12 @@ Parameters used for segmentation may require adjustment for new images. For comp
 
 ## Output and interpretation
 
+The table lists the included reference exports in `Output hexbinm plot/`. New runs write to `Output hexbin plot/`, as configured in the notebook.
+
 | Output | Description |
 | --- | --- |
-| `output_hexbin_plot/Hexbin_map.pdf` | Spatial hexbin ratio visualization in PDF format |
-| `output_hexbin_plot/Hexbin_map.svg` | Spatial hexbin ratio visualization in SVG format |
+| `Output hexbinm plot/Hexbin_map.pdf` | Spatial hexbin ratio visualization in PDF format |
+| `Output hexbinm plot/Hexbin_map.svg` | Spatial hexbin ratio visualization in SVG format |
 
 The notebook also displays intermediate image and mask previews and prints background estimates. It does not export per-cell measurements, per-bin numerical ratio tables, or statistical summaries.
 

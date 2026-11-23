@@ -9,25 +9,24 @@ This repository contains image-processing, quantitative-analysis, and visualizat
 
 The accompanying study identifies a CO₂/pH–SNRK–mTOR signaling pathway linking postnatal respiration to the rapid decline in neuronal growth-associated signaling. The code supports measurements from *in vivo* two-photon imaging, genetically encoded fluorescent reporters, retinal immunofluorescence, and cell segmentation.
 
-**Five analysis workflows and two figure-specific video workflows** are provided. The analysis folders and both video subfolders have their own READMEs describing inputs, dependencies, workflows, and outputs.
+**Five analysis workflows, two figure-specific visualization workflows, and five final supplementary videos** are provided. The analysis and visualization folders have their own READMEs describing inputs, dependencies, workflows, and outputs. The supplementary-video README contains the complete legends and figure-to-video mapping.
 
 ## Repository organization
 
-| Module | Description | Main notebook |
+| Folder | Contents | Entry points |
 | --- | --- | --- |
-| **ExRai-AMPKAR analysis pipeline** | Single-cell ratiometric analysis of paired 800/920 nm recordings, including segmentation, tracking, matching, background subtraction, and quality control | [ExRai-AMPKAR analysis notebook](3.%20Ratio%20metric%20based%20AMPKAR%20sensor%20analysis%20pipeline/ExRai%20AMPKAR%20analysis/per_view_analysis.ipynb) |
-| **Figure 3b – ExRai-AMPKAR video plot** | Z-stack videos combining excitation images, per-cell ratio projections, intensity heatmaps, and peak-plane highlights | [ExRai-AMPKAR video notebook](6.%20Scripts%20and%20raw%20images%20in%20the%20figures/Figure3b%20-%20ExRai-AMPKAR%20analysis%20video%20plot%20/ExRai_AMPKAR_heatmaps_video.ipynb) |
-| **FRET-based sensor analysis pipeline** | Extraction of donor/acceptor fluorescence signals and per-cell FRET efficiency calculation | [FRET analysis notebook](4.%20FRET%20based%20sensor%20analysis%20pipeline/FRET_analysis.ipynb) |
-| **Figure 5b – pHLr-FRET sensor video plot** | Video visualization of prepared donor/acceptor images, cell FRET maps, and mean FRET time courses | [pHLr FRET video notebook](6.%20Scripts%20and%20raw%20images%20in%20the%20figures/Figure5b%20-%20pHLr-FRET%20sensor%20video%20plot/pHLr_FRET_video.ipynb) |
-| **p-S6 hexbin analysis** | Spatial visualization of p-S6/RBPMS fluorescence relationships in retinal sections | [p-S6 hexbin notebook](1.%20Hexbin%20plot%20for%20p-S6%20signal%20in%20retina%20section/Hexbin_plot_code.ipynb) |
-| **Cellpose analysis** | Cell segmentation and fluorescence-ratio quantification from cultured-cell maximum-intensity projections | [Cellpose notebook](5.%20Cellpose%20based%20in%20vitro%20imaging%20analysis%20pipeline/Cellpose_segmentation%26analysis.ipynb) |
-| **U-Net segmentation** | Training, evaluation, and application of deep-learning models for cell segmentation | [U-Net training notebook](2.%20U-net%20based%20cell%20segmentation/2.2%20Selection%20for%20best%20NN%20parameters/U_net_train_model_hparam_search.ipynb.ipynb); [U-Net inference notebook](2.%20U-net%20based%20cell%20segmentation/2.3%20Running%20Neural%20Network/NN_binary_mask.ipynb) |
+| **[1. Hexbin plot for p-S6 signal in retina section](1.%20Hexbin%20plot%20for%20p-S6%20signal%20in%20retina%20section/README.md)** | Spatial visualization of p-S6/RBPMS fluorescence ratios in retinal sections | [Hexbin notebook](1.%20Hexbin%20plot%20for%20p-S6%20signal%20in%20retina%20section/Hexbin_plot_code.ipynb) |
+| **[2. U-net based cell segmentation](2.%20U-net%20based%20cell%20segmentation/README.md)** | Training, evaluation, and application of U-Net models for cell segmentation | [Training notebook](2.%20U-net%20based%20cell%20segmentation/2.2%20Selection%20for%20best%20NN%20parameters/U_net_train_model_hparam_search.ipynb.ipynb); [Inference notebook](2.%20U-net%20based%20cell%20segmentation/2.3%20Running%20Neural%20Network/NN_binary_mask.ipynb) |
+| **[3. Ratio metric based AMPKAR sensor analysis pipeline](3.%20Ratio%20metric%20based%20AMPKAR%20sensor%20analysis%20pipeline/README.md)** | Single-cell analysis of paired 800/920 nm recordings, including segmentation, tracking, cell matching, background subtraction, and excitation ratios | [ExRai-AMPKAR analysis notebook](3.%20Ratio%20metric%20based%20AMPKAR%20sensor%20analysis%20pipeline/ExRai%20AMPKAR%20analysis/per_view_analysis.ipynb) |
+| **[4. FRET based sensor analysis pipeline](4.%20FRET%20based%20sensor%20analysis%20pipeline/README.md)** | Cell-mask refinement, background correction, and correction-dependent per-cell FRET efficiency calculation | [FRET analysis notebook](4.%20FRET%20based%20sensor%20analysis%20pipeline/FRET_analysis.ipynb) |
+| **[5. Cellpose based in vitro imaging analysis pipeline](5.%20Cellpose%20based%20in%20vitro%20imaging%20analysis%20pipeline/README.md)** | Cellpose segmentation and background-corrected fluorescence channel-ratio quantification from cultured-cell images | [Cellpose notebook](5.%20Cellpose%20based%20in%20vitro%20imaging%20analysis%20pipeline/Cellpose_segmentation%26analysis.ipynb) |
+| **[6. Scripts and raw images in the figures](6.%20Scripts%20and%20raw%20images%20in%20the%20figures/README.md)** | Two figure-specific visualization workflows, plus five final supplementary videos and their full legends | [Figure 3b visualization notebook](6.%20Scripts%20and%20raw%20images%20in%20the%20figures/Figure3b%20-%20ExRai-AMPKAR%20analysis%20video%20plot%20code%20/ExRai_AMPKAR_heatmaps_video.ipynb); [Figure 5d visualization notebook](6.%20Scripts%20and%20raw%20images%20in%20the%20figures/Figure5d%20-%20pHLr-FRET%20sensor%20video%20plot%20code/pHLr_FRET_video.ipynb); [Supplementary videos and legends](6.%20Scripts%20and%20raw%20images%20in%20the%20figures/Supplementary%20Videos/README.md) |
 
 ## Getting started
 
 ### 1. Download the code
 
-Clone or download the repository and open the folder for the analysis or visualization you wish to run.
+Clone or download the repository and open the folder for the analysis or visualization you wish to run. Model checkpoints and MP4 videos are tracked with Git LFS; download their actual contents before running the examples or viewing the videos.
 
 ### 2. Set up the environment
 
@@ -53,15 +52,28 @@ The table identifies the analysis or visualization workflows associated with the
 | Manuscript figure | Data or analysis | Relevant code |
 | --- | --- | --- |
 | **Fig. 1a–c** | Spatial p-S6/RBPMS maps in retinal sections | [Hexbin notebook](1.%20Hexbin%20plot%20for%20p-S6%20signal%20in%20retina%20section/Hexbin_plot_code.ipynb) |
-| **Fig. 3b** | ExRai-AMPKAR Z-stack and ratio visualization | [ExRai analysis](3.%20Ratio%20metric%20based%20AMPKAR%20sensor%20analysis%20pipeline/ExRai%20AMPKAR%20analysis/per_view_analysis.ipynb); [Figure 3b video](6.%20Scripts%20and%20raw%20images%20in%20the%20figures/Figure3b%20-%20ExRai-AMPKAR%20analysis%20video%20plot%20/ExRai_AMPKAR_heatmaps_video.ipynb) |
+| **Fig. 3b** | ExRai-AMPKAR Z-stack and ratio visualization | [ExRai analysis](3.%20Ratio%20metric%20based%20AMPKAR%20sensor%20analysis%20pipeline/ExRai%20AMPKAR%20analysis/per_view_analysis.ipynb); [Figure 3b visualization notebook](6.%20Scripts%20and%20raw%20images%20in%20the%20figures/Figure3b%20-%20ExRai-AMPKAR%20analysis%20video%20plot%20code%20/ExRai_AMPKAR_heatmaps_video.ipynb) |
 | **Fig. 3c–e** | ExRai-AMPKAR kinase-activity analysis, including *Snrk* loss of function | [ExRai analysis](3.%20Ratio%20metric%20based%20AMPKAR%20sensor%20analysis%20pipeline/ExRai%20AMPKAR%20analysis/per_view_analysis.ipynb) |
 | **Fig. 4b, d** | ExRai-AMPKAR responses under altered CO₂ or O₂ | [ExRai analysis](3.%20Ratio%20metric%20based%20AMPKAR%20sensor%20analysis%20pipeline/ExRai%20AMPKAR%20analysis/per_view_analysis.ipynb) |
-| **Fig. 5b** | pHLemon-rev FRET sensor visualization around breathing onset | [FRET analysis](4.%20FRET%20based%20sensor%20analysis%20pipeline/FRET_analysis.ipynb); [Figure 5b video](6.%20Scripts%20and%20raw%20images%20in%20the%20figures/Figure5b%20-%20pHLr-FRET%20sensor%20video%20plot/pHLr_FRET_video.ipynb) |
-| **Fig. 5a, c–d** | pHLemon-rev intracellular-pH measurements | [FRET analysis](4.%20FRET%20based%20sensor%20analysis%20pipeline/FRET_analysis.ipynb) |
+| **Fig. 5d** | pHLemon-rev FRET sensor visualization around breathing onset | [FRET analysis](4.%20FRET%20based%20sensor%20analysis%20pipeline/FRET_analysis.ipynb); [Figure 5d visualization notebook](6.%20Scripts%20and%20raw%20images%20in%20the%20figures/Figure5d%20-%20pHLr-FRET%20sensor%20video%20plot%20code/pHLr_FRET_video.ipynb) |
+| **Fig. 5a, c** | pHLemon-rev intracellular-pH measurements | [FRET analysis](4.%20FRET%20based%20sensor%20analysis%20pipeline/FRET_analysis.ipynb) |
 | **Fig. 6b–c** | Adult RGC intracellular-pH and AMPK-family reporter measurements | [FRET analysis](4.%20FRET%20based%20sensor%20analysis%20pipeline/FRET_analysis.ipynb); [ExRai analysis](3.%20Ratio%20metric%20based%20AMPKAR%20sensor%20analysis%20pipeline/ExRai%20AMPKAR%20analysis/per_view_analysis.ipynb) |
 | **Extended Data Fig. 13** | ATP and calcium reporter measurements | [FRET analysis](4.%20FRET%20based%20sensor%20analysis%20pipeline/FRET_analysis.ipynb) |
 | **Extended Data Fig. 14** | Deep-learning segmentation and comparison with annotated cells | [U-Net training](2.%20U-net%20based%20cell%20segmentation/2.2%20Selection%20for%20best%20NN%20parameters/U_net_train_model_hparam_search.ipynb.ipynb); [U-Net inference](2.%20U-net%20based%20cell%20segmentation/2.3%20Running%20Neural%20Network/NN_binary_mask.ipynb) |
-| **Extended Data Figs. 15–18** | FRET correction, reporter calibration, and sensor-validation analyses | [Cellpose notebook](5.%20Cellpose%20based%20in%20vitro%20imaging%20analysis%20pipeline/Cellpose_segmentation%26analysis.ipynb) |
+| **Extended Data Figs. 15–18** | In vitro cell segmentation and fluorescence channel-ratio quantification | [Cellpose notebook](5.%20Cellpose%20based%20in%20vitro%20imaging%20analysis%20pipeline/Cellpose_segmentation%26analysis.ipynb) |
+
+## Supplementary videos
+
+The final videos and complete legends are available in [Supplementary Videos](6.%20Scripts%20and%20raw%20images%20in%20the%20figures/Supplementary%20Videos/README.md). Each figure and experimental condition has a separate video folder.
+
+| Manuscript figure | Condition or reporter | Supplementary video |
+| --- | --- | --- |
+| **Fig. 3b** | Wild type; ExRai-AMPKAR | [Video 3](6.%20Scripts%20and%20raw%20images%20in%20the%20figures/Supplementary%20Videos/Figure%203b%20-%20ExRai-AMPKAR%20sensor%20wild%20type%20/Fig.3b.mp4) |
+| **Fig. 3d** | *Snrk* knockout; ExRai-AMPKAR | [Video 4](6.%20Scripts%20and%20raw%20images%20in%20the%20figures/Supplementary%20Videos/Figure%203d%20-%20ExRai-AMPKAR%20sensor%20Snrk%20knockout/Fig.3d.mp4) |
+| **Fig. 4a** | 10% CO₂; ExRai-AMPKAR | [Video 5](6.%20Scripts%20and%20raw%20images%20in%20the%20figures/Supplementary%20Videos/Figure%204a%20-%20ExRai-AMPKAR%20sensor%2010%20percent%20CO2/Fig.4a.mp4) |
+| **Fig. 4c** | 10% O₂; ExRai-AMPKAR | [Video 6](6.%20Scripts%20and%20raw%20images%20in%20the%20figures/Supplementary%20Videos/Figure%204c%20-%20ExRai-AMPKAR%20sensor%2010%20percent%20O2%20/Fig.4c.mp4) |
+| **Fig. 5d** | Intracellular pH; pHLemon-rev FRET | [Video 7](6.%20Scripts%20and%20raw%20images%20in%20the%20figures/Supplementary%20Videos/Figure%205d%20-%20pHLr-FRET/Fig.5d.mp4) |
+
 ## Analysis modules
 
 ### ExRai-AMPKAR: ratiometric two-photon imaging
@@ -74,29 +86,29 @@ The table identifies the analysis or visualization workflows associated with the
 
 ### Figure 3b: ExRai-AMPKAR videos and intensity heatmaps
 
-**Input:** `Input_analysis_results/` containing the `0min/`, `1min/`, `3min/`, `6min/`, and `8min/` folders, with paired TIFF stacks and previously generated S2 masks, S5 intensity tables, and S7 ratios.  
+**Input:** `Input analysis results/` containing the `0min/`, `1min/`, `3min/`, `6min/`, and `8min/` folders, with paired TIFF stacks and previously generated S2 masks, S5 intensity tables, and S7 ratios.  
 **Visualization:** Three-panel Z-stack videos, matched-cell intensity heatmaps, and channel-specific peak-plane highlights.  
-**Output:** AVI videos and peak-alignment CSV files in `output_folder/`.
+**Output:** AVI videos and peak-alignment CSV files in `Output folder/`.
 
-**Notebook:** [ExRai-AMPKAR video notebook](6.%20Scripts%20and%20raw%20images%20in%20the%20figures/Figure3b%20-%20ExRai-AMPKAR%20analysis%20video%20plot%20/ExRai_AMPKAR_heatmaps_video.ipynb)
+**Notebook:** [ExRai-AMPKAR video notebook](6.%20Scripts%20and%20raw%20images%20in%20the%20figures/Figure3b%20-%20ExRai-AMPKAR%20analysis%20video%20plot%20code%20/ExRai_AMPKAR_heatmaps_video.ipynb)
 
 ### FRET-based biosensors
 
-**Input:** Aligned donor and acceptor fluorescence images and a binary cell mask.  
-**Analysis:** Segmentation-based fluorescence extraction → per-cell FRET efficiency calculation → pseudocolor visualization.  
+**Input:** Aligned donor/Turquoise and FRET/acceptor-emission fluorescence images and a precomputed binary cell mask.  
+**Analysis:** Cell-mask refinement → background correction → correction-dependent per-cell FRET efficiency calculation → pseudocolor visualization.  
 **Output:** `cell_FRET_efficiency.csv`, `EFRET_per_cell_pseudocolor.tif`, and segmentation previews.
 
 **Notebook:** [FRET analysis notebook](4.%20FRET%20based%20sensor%20analysis%20pipeline/FRET_analysis.ipynb)
 
-The manuscript describes additional bleed-through correction and photon-flux normalization; consult the Methods and corresponding code when interpreting calibrated measurements.
+The notebook applies configured correction and calibration constants. See the [FRET analysis README](4.%20FRET%20based%20sensor%20analysis%20pipeline/README.md) for the calculation and parameters.
 
-### Figure 5b: pHLemon-rev FRET sensor video
+### Figure 5d: pHLemon-rev FRET sensor video
 
-**Input:** `Input_analysis_results/` containing representative cropped donor and acceptor images, previously generated neural-network cell masks, and `cell_FRET.csv`.  
-**Visualization:** Per-cell FRET pseudocolor images combined with donor/acceptor fluorescence and the mean FRET time course.  
-**Output:** `pHLr_analysis_video_results.mp4` and `mean_FRET_per_view.csv` in `output_exported_video/`.
+**Input:** `Input analysis results/` containing representative cropped donor and acceptor images, previously generated neural-network cell masks, and `cell_FRET.csv`.  
+**Visualization:** Per-cell FRET pseudocolor images combined with donor/acceptor fluorescence and a baseline-subtracted ΔFRET time course.  
+**Output:** `pHLr_analysis_video_results.mp4` and `mean_FRET_per_view.csv` in `Output exported video/`.
 
-**Notebook:** [pHLr FRET video notebook](6.%20Scripts%20and%20raw%20images%20in%20the%20figures/Figure5b%20-%20pHLr-FRET%20sensor%20video%20plot/pHLr_FRET_video.ipynb)
+**Notebook:** [pHLr FRET video notebook](6.%20Scripts%20and%20raw%20images%20in%20the%20figures/Figure5d%20-%20pHLr-FRET%20sensor%20video%20plot%20code/pHLr_FRET_video.ipynb)
 
 The images are representative crops of a larger field of view. Segmentation was performed on the original full-size images, and FRET values were calculated before video generation. The supplied frames are not necessarily consecutive: frames affected by breathing-related displacement or unstable movement were excluded. Interpolation, where used for visualization, does not recover excluded measurements.
 
@@ -113,7 +125,7 @@ The images are representative crops of a larger field of view. Segmentation was 
 ### Cellpose-based single-cell analysis
 
 **Input:** Paired, aligned maximum-intensity-projection TIFF images.  
-**Analysis:** Cellpose segmentation → per-cell channel intensities → fluorescence ratios → quality filtering.  
+**Analysis:** Cellpose segmentation → background-corrected per-cell channel intensities → quality filtering → fluorescence ratios.  
 **Output:** Segmentation masks, overlays, CSV tables, and intensity-distribution plots.
 
 **Notebook:** [Cellpose notebook](5.%20Cellpose%20based%20in%20vitro%20imaging%20analysis%20pipeline/Cellpose_segmentation%26analysis.ipynb)

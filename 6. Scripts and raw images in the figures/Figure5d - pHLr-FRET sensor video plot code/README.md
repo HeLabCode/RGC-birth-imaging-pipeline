@@ -1,8 +1,8 @@
-# pHLemon-rev FRET Sensor Video (Figure 5b)
+# pHLemon-rev FRET Sensor Video (Figure 5d)
 
 ## Overview
 
-This notebook generates a video of pHLemon-rev fluorescence imaging, combining donor and acceptor images, per-cell FRET pseudocolor maps, and the corresponding mean FRET time course.
+This notebook generates a video of pHLemon-rev fluorescence imaging, combining donor and acceptor images, per-cell FRET pseudocolor maps, and the corresponding baseline-subtracted ΔFRET time course.
 
 The supplied files include paired fluorescence images, cell masks, and a table of previously calculated per-cell FRET measurements. This notebook visualizes these prepared results; it does not perform neural-network segmentation or recalculate FRET efficiency.
 
@@ -16,7 +16,7 @@ The available files have nonconsecutive time-point identifiers. The visualizatio
 
 - Visualization of donor and acceptor fluorescence images
 - Per-cell FRET pseudocolor maps using supplied segmentation masks
-- Display of the mean FRET time course and cell-to-cell variability
+- Display of the baseline-subtracted ΔFRET time course and cell-to-cell variability
 - Alignment of the displayed images with their corresponding FRET measurements
 - Video export in MP4 format
 - CSV export of the mean FRET time course
@@ -87,7 +87,7 @@ These are the input images used by this visualization notebook. The notebook doe
 
 1. Open `pHLr_FRET_video.ipynb` from this folder.
 2. Install the listed dependencies and run the configuration cell using `Input analysis results/`.
-3. Preview the visualization using the notebook controls.
+3. Preview the first visualization frame and check the panel layout.
 4. Run the export cell and inspect `Output exported video/pHLr_analysis_video_results.mp4` and `Output exported video/mean_FRET_per_view.csv`.
 
 The included example uses prepared results; the notebook does not recompute FRET values from the original acquisition.
@@ -103,8 +103,10 @@ The included example uses prepared results; the notebook does not recompute FRET
 
 ### 2. FRET Visualization
 - Displays the donor and acceptor images alongside per-cell FRET pseudocolor maps
-- Shows the corresponding mean FRET time course and cell-level variability
+- Shows the corresponding baseline-subtracted ΔFRET time course and cell-level variability
 - Associates each displayed frame with its position in the plotted time course
+
+By default, ΔFRET is the rolling-window mean FRET minus the mean of the first ten window means. The exported CSV retains mean FRET values.
 
 ### 3. Video Generation
 - Generates a video from the available frames
@@ -121,7 +123,7 @@ The included example uses prepared results; the notebook does not recompute FRET
 
 | File | Description |
 | --- | --- |
-| `pHLr_analysis_video_results.mp4` | Video combining fluorescence images, per-cell FRET maps, and the mean FRET time course |
+| `pHLr_analysis_video_results.mp4` | Video combining fluorescence images, per-cell FRET maps, and the baseline-subtracted ΔFRET time course |
 | `mean_FRET_per_view.csv` | Summary of the mean FRET time course and cell-level variability |
 
 Both files are stored in `Output exported video/`.

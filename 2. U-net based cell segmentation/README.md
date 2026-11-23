@@ -49,7 +49,7 @@ The training workflow imports Python, Jupyter, PyTorch, Segmentation Models PyTo
 pip install jupyterlab numpy pandas matplotlib opencv-python torch scikit-learn albumentations segmentation-models-pytorch optuna natsort tifffile scipy
 ```
 
-The inference notebook also imports `scikit-image`. Compatibility with all newer package versions is not established. Results can depend on software versions, hardware, and random seeds.
+The inference notebook’s installation cell also lists `scikit-image`. Compatibility with all newer package versions is not established. Results can depend on software versions, hardware, and random seeds.
 
 ## Inference with the supplied model
 

@@ -66,7 +66,7 @@ This is a workflow guide based on notebook inspection, not a claim of independen
 
 ### 1. Cell segmentation
 
-Cellpose is applied to the `ch00` MIP for each field. The notebook uses automatic diameter estimation (`diameter=None`) and normalization, then saves labeled masks as `ch00_MIP_labels.npy` and overlays as `ch00_MIP_overlay.png`.
+Cellpose is applied to the `ch00` MIP for each field. The notebook passes `diameter=None` and enables normalization, then saves labeled masks as `ch00_MIP_labels.npy` and overlays as `ch00_MIP_overlay.png`.
 
 ### 2. Background correction
 

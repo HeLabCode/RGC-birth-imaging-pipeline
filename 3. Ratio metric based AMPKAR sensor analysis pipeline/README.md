@@ -4,7 +4,7 @@
 
 This pipeline performs single-cell segmentation, Z-stack tracking, cross-excitation cell matching, quality control, and ratiometric signal extraction from two-photon images acquired at **800 nm and 920 nm excitation** through a common emission channel.
 
-The central notebook processes one imaging **view** at a time. It uses an included pretrained segmentation model, interactive/manual checks, and step-specific Python utilities. The output includes background-corrected intensity measurements, an **920/800 excitation ratio** per matched cell, and pseudocolor visualization files. The example demonstrates the analysis workflow rather than a complete multi-sample statistical analysis.
+The central notebook processes one imaging **view** at a time. It uses an included pretrained segmentation model, interactive/manual checks, and step-specific Python utilities. The output includes background-corrected intensity measurements, a **920/800 excitation ratio** per matched cell, and pseudocolor visualization files. The example demonstrates the analysis workflow rather than a complete multi-sample statistical analysis.
 
 ## Repository organization
 

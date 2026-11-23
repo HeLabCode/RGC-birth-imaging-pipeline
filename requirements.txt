@@ -18,6 +18,7 @@ tifffile
 opencv-python
 Pillow
 imageio
+imageio-ffmpeg
 
 # Machine learning / neural network segmentation
 torch

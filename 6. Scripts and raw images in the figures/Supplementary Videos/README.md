@@ -60,4 +60,4 @@ The visualization notebooks use previously prepared analysis results. Their inpu
 ## Notes
 
 - The videos are provided as final MP4 files and can be viewed without running the analysis notebooks.
-- Supplementary video numbers follow the accompanying legend document; the original figure-based MP4 filenames are retained.
+- Supplementary video numbers follow the accompanying legend document.
